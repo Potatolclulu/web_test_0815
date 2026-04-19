@@ -1,46 +1,32 @@
 import React from 'react';
 
 export default function DishModal({ dish, onClose }) {
+  if (!dish) return null;
+
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>✕</button>
-        <h2 className="recipe-title">{dish.name}</h2>
-        
-        <div style={{ marginBottom: '2rem', textAlign: 'center', fontSize: '3rem' }}>
-          {dish.emoji}
+    <div className="modal-overlay open" onClick={onClose} role="dialog" aria-modal="true">
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <button className="modal-close" aria-label="閉じる" onClick={onClose}>✕</button>
+        <div className="modal-head">
+          <div className="modal-mon">{dish.mon}</div>
+          <div>
+            <h3>{dish.name}</h3>
+            <div className="romaji">{dish.romaji} · {dish.catLabel}</div>
+          </div>
         </div>
-
-        <div style={{ marginBottom: '2rem' }}>
-          <h3 style={{ marginBottom: '1rem', fontSize: '1.2rem', fontWeight: 500 }}>
-            料理の特徴
-          </h3>
-          <p style={{ color: '#666', lineHeight: 1.8 }}>
-            {dish.details}
-          </p>
-        </div>
-
-        <div style={{ marginBottom: '2rem' }}>
-          <h3 style={{ marginBottom: '1rem', fontSize: '1.2rem', fontWeight: 500 }}>
-            材料
-          </h3>
-          <ul className="ingredients-list">
-            {dish.ingredients.map((ingredient, index) => (
-              <li key={index}>{ingredient}</li>
-            ))}
+        <div className="modal-body">
+          <h4>料理の特徴</h4>
+          <p>{dish.details}</p>
+          <h4>主な材料</h4>
+          <ul>
+            {dish.ingredients.map((item, i) => <li key={i}>{item}</li>)}
           </ul>
-        </div>
-
-        <div>
-          <h3 style={{ marginBottom: '1rem', fontSize: '1.2rem', fontWeight: 500 }}>
-            作り方
-          </h3>
-          <ol className="cooking-steps">
-            {dish.steps.map((step, index) => (
-              <li key={index}>{step}</li>
-            ))}
+          <h4>作り方</h4>
+          <ol>
+            {dish.steps.map((step, i) => <li key={i}>{step}</li>)}
           </ol>
         </div>
       </div>
     </div>
+  );
 }
